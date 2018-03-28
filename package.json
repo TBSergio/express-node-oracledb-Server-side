@@ -9,6 +9,7 @@
   "author": "Sergei Kovalchuk",
   "license": "ISC",
   "dependencies": {
-    "oracledb": "^2.1.2"
+    "oracledb": "^2.1.2",
+    "express": "^4.16.1"
   }
 }

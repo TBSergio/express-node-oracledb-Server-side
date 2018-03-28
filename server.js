@@ -1,46 +1,13 @@
+var sq = require('./simpleQuery.js');
+var express = require('express');
 
-var oracledb = require('oracledb');
+var app = express();
 
-oracledb.getConnection(
-  {
-    user          : 'sergei',
-    password      : '123456',
-    connectString : 'localhost:1522/orc'
-  },
-  function(err, connection)
-  {
-    if (err) {
-      console.error(err.message);
-      return;
-    }
-    connection.execute(
-      // The statement to execute
-      `SELECT *
-       FROM employee
-       `,
+app.get('/',(req,res)=>{
+   sq.queryData(req.param('query'),(ret)=>{
+       res.send(ret);
+   });
+});
 
-      // The callback function handles the SQL execution results
-      function(err, result)
-      {
-        if (err) {
-          console.error(err.message);
-          doRelease(connection);
-          return;
-        }
-        console.log('------------------------------------\nEmployee table contains:\n------------------------------------')
-        console.log(result.rows);     
-        console.log('------------------------------------');
-        doRelease(connection);
-      });
-  });
-
-// Note: connections should always be released when not needed
-function doRelease(connection)
-{
-  connection.close(
-    function(err) {
-      if (err) {
-        console.error(err.message);
-      }
-    });
-}
+app.listen(3000);
+console.log('Server localhost:3000 Waiting for query...')
