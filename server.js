@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 
 app.get('/',(req,res)=>{
-   sq.queryData(req.param('query'),(ret)=>{
+   sq.queryData(req.query.q,(ret)=>{
        res.send(ret);
    });
 });
